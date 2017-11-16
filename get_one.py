@@ -1,7 +1,8 @@
 # coding:utf-8
 
 import tushare as ts
-
+import time
+import sys
 
 def is_duotou(code, daylist):
     """
@@ -17,20 +18,24 @@ def is_duotou(code, daylist):
     code = str(code)
     print "start calc code %s" % code
 
-    one_info = ts.get_hist_data(code)
+    one_info = ts.get_hist_data()
     # 获得pandas数据的键
     # key = one_info.keys()
 
     ma5 = one_info['ma5']
+    print ma5
+    sys.exit(0)
     ma10 = one_info['ma10']
+
     ma20 = one_info['ma20']
+
     v_ma5 = one_info['v_ma5']
     v_ma10 = one_info['v_ma10']
     v_ma20 = one_info['v_ma20']
 
     if (ma5[daylist[2]] >= ma10[daylist[2]] and ma10[daylist[2]] >= ma20[daylist[2]]) and \
-        (ma5[daylist[1]] >= ma10[daylist[1]] and ma10[daylist[1]] >= ma20[daylist[1]]) and\
-        not (ma5[daylist[0]] >= ma10[daylist[0]] and ma10[daylist[0]] >= ma20[daylist[0]]):
+            (ma5[daylist[1]] >= ma10[daylist[1]] and ma10[daylist[1]] >= ma20[daylist[1]]) and \
+            not (ma5[daylist[0]] >= ma10[daylist[0]] and ma10[daylist[0]] >= ma20[daylist[0]]):
         print "%s:多头排列" % code
         return True
     else:
@@ -49,13 +54,13 @@ def get_today_date():
 
 
 if __name__ == '__main__':
-
-    daylist = ["2017-11-8","2017-11-9","2017-11-10"]
+    stockid_list = ts.get_stock_basics().index
+    daylist = ["2017-11-14","2017-11-15", "2017-11-16"]
     # daylist = "2017-11-10"
     # daylist = get_today_date()
     # stockid_list = ts.get_stock_basics().index
-    stockid_list = [600000, 300318, 600827]
-    print  stockid_list
+    # stockid_list = [600000, 300318, 600827]
+    # print  stockid_list
     for stockid in stockid_list:
         # stockname = all_stock_info.ix[stockid]['name'].decode('utf-8')
         ret = is_duotou(stockid, daylist)
