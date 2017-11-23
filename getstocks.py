@@ -38,7 +38,8 @@ def getstockid():
     :return:
     """
     # todo，实现各个条件后获得代码列表：stocklist
-    stocklist = ["600000","600001"]
+    stocklist = ts.get_stock_basics().index
+    # stocklist = ["600000","600001"]
     stockfile = "stockcode.csv"
     for id in stocklist:
         with open(stockfile,'w+') as f:
