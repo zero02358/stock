@@ -8,6 +8,7 @@
 import tushare as ts
 import datetime
 import log,logging
+import  os
 
 def issuspension(stockid):
     """
@@ -24,6 +25,14 @@ def isdateok(date):
     :return:
     """
     # todo
+
+def save2csv(stockid):
+    dirname = "stockdata"
+    filename = stockid + ".csv"
+    path = os.path.abspath(".") + "\\" + dirname + "\\" + filename
+    df = ts.get_hist_data(stockid)
+    df.to_csv(path)
+    print "write file for code %s" % stockid
 
 
 def getstockid():
@@ -48,4 +57,18 @@ def getstockid():
                 logging.debug("write id %s" % str(id))
 
 if __name__ == '__main__':
+    logging.debug("starting ...")
     getstockid()
+    stocklistfile = "stockcode.csv"
+    with open(stocklistfile, 'r') as stockfile:
+        stockid_list = stockfile.readline().split(',')
+    tmplist = []
+    for i in stockid_list:
+        if i:
+            tmplist.append(i)
+    stockid_list = tmplist
+    for stockid in stockid_list:
+        # stockname = all_stock_info.ix[stockid]['name'].decode('utf-8')
+        # ret = is_duotou(stockid, daylist)
+        save2csv(stockid)
+    logging.debug("end ...")

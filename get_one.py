@@ -55,13 +55,6 @@ def get_today_date():
     return today_date
 
 
-def save2csv(stockid):
-    dirname = "data"
-    filename = stockid + ".csv"
-    path = os.path.abspath(".") + "\\" + dirname + "\\" + filename
-    df = ts.get_hist_data(stockid)
-    df.to_csv(path)
-    print "write file for code %s" % stockid
 
 
 
